@@ -1,7 +1,7 @@
 {
 	"name": "react-native-assistbox",
-	"version": "1.0.0",
-	"description": "React Native plugin for Assistbox iOS and Android libraries",
+	"version": "1.2.0",
+	"description": "React Native module for Assistbox iOS and Android libraries",
 	"homepage": "https://assistbox.io",
 	"main": "index.js",
 	"scripts": {
