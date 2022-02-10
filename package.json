@@ -1,0 +1,20 @@
+{
+	"name": "react-native-assistbox",
+	"version": "1.0.0",
+	"description": "React Native plugin for Assistbox iOS and Android libraries",
+	"homepage": "https://assistbox.io",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"react-native",
+		"assistbox"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/AssistBox/react-native-assistbox.git"
+	},
+	"author": "Assistbox",
+	"license": "MIT"
+}
