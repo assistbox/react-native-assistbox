@@ -25,6 +25,8 @@
 /* Begin PBXFileReference section */
 		15209BEF1D250F63000D0F44 /* libReactNativeAssistbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libReactNativeAssistbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		15209BF91D250FB1000D0F44 /* ReactNativeAssistbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReactNativeAssistbox.m; sourceTree = "<group>"; };
+		25FEA88C28104282002F037B /* ReactNativeAssistbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReactNativeAssistbox.h; sourceTree = "<group>"; };
+		25FEA88D281044F4002F037B /* react-native-assistbox.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "react-native-assistbox.podspec"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +43,7 @@
 		15209BF01D250F63000D0F44 /* ReactNativeAssistbox */ = {
 			isa = PBXGroup;
 			children = (
+				25FEA88C28104282002F037B /* ReactNativeAssistbox.h */,
 				15209BF91D250FB1000D0F44 /* ReactNativeAssistbox.m */,
 			);
 			path = ReactNativeAssistbox;
@@ -49,6 +52,7 @@
 		327633391BFAAD7E004DA88E = {
 			isa = PBXGroup;
 			children = (
+				25FEA88D281044F4002F037B /* react-native-assistbox.podspec */,
 				15209BF01D250F63000D0F44 /* ReactNativeAssistbox */,
 				327633431BFAAD7E004DA88E /* Products */,
 			);
