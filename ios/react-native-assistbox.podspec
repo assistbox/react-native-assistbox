@@ -18,4 +18,6 @@ Pod::Spec.new do |s|
   s.source_files  = "**/*.{h,m}"
 
   s.dependency 'React-Core'
+  s.dependency 'Socket.IO-Client-Swift', '~> 16.0.1'
+  s.dependency 'SwiftStomp'
 end

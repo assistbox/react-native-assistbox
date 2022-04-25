@@ -11,8 +11,9 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.nayah.assistbox.AssistBoxActivity;
-import com.nayah.assistbox.LogService;
+
+import io.assistbox.Assistbox;
+import io.assistbox.LogService;
 
 public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 	private static final String TAG = "ReactNativeAssistboxModule";
@@ -45,9 +46,13 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 	}
 
 	@ReactMethod
-	public void goToAssistbox(String token, String mobileServiceEndpoint, String mobileStorageEndpoint, String splashScreenResourceName, Callback successCallback,
-							  Callback errorCallback) {
-
+	public void initVideoCallWithToken(String token,
+									   String mobileServiceEndpoint,
+									   String splashScreenResourceName,
+									   String notificationIconResourceName,
+									   String fcmToken,
+									   Callback successCallback,
+									   Callback errorCallback) {
 		UiThreadUtil.runOnUiThread(() -> {
 			try {
 				if (token == null || token.isEmpty()) {
@@ -58,34 +63,162 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 					errorCallback.invoke("Mobile Service Endpoint is required");
 					return;
 				}
-				if (mobileStorageEndpoint == null || mobileStorageEndpoint.isEmpty()) {
-					errorCallback.invoke("Mobile Storage Endpoint is required");
-					return;
-				}
-
 				this.reactContext.registerReceiver(redirectReceiver, new IntentFilter("AssistboxRedirection"));
+				int splashScreenResourceId = getDrawableResourceIdByName(splashScreenResourceName);
+				int notificationIconResourceId = getMipmapResourceIdByName(notificationIconResourceName);
 
-				Intent intent = new Intent(reactContext, AssistBoxActivity.class);
-
-				int resourceId = getResourceIdByName(splashScreenResourceName);
-
-				intent.putExtra("accessToken", token);
-				intent.putExtra("mobileServiceEndpoint", mobileServiceEndpoint);
-				intent.putExtra("mobileStorageEndpoint", mobileStorageEndpoint);
-				intent.putExtra("splashScreenResourceId", resourceId);
-				reactContext.getCurrentActivity().startActivity(intent);
+				Assistbox.initVideoCallWithToken(reactContext.getCurrentActivity(), token, mobileServiceEndpoint, splashScreenResourceId, notificationIconResourceId, fcmToken);
 				successCallback.invoke("Opening Assistbox SDK");
-
 			} catch(Exception e) {
 				errorCallback.invoke(e.getMessage());
 			}
 		});
 	}
 
-	private int getResourceIdByName(String resourceName) {
+	@ReactMethod
+	public void initVideoCallWithAccessKey(String accessKey,
+										   String mobileServiceEndpoint,
+										   String splashScreenResourceName,
+										   String notificationIconResourceName,
+										   String fcmToken,
+										   Callback successCallback,
+										   Callback errorCallback) {
+		UiThreadUtil.runOnUiThread(() -> {
+			try {
+				if (accessKey == null || accessKey.isEmpty()) {
+					errorCallback.invoke("Access Key is required");
+					return;
+				}
+				if (mobileServiceEndpoint == null || mobileServiceEndpoint.isEmpty()) {
+					errorCallback.invoke("Mobile Service Endpoint is required");
+					return;
+				}
+				this.reactContext.registerReceiver(redirectReceiver, new IntentFilter("AssistboxRedirection"));
+				int splashScreenResourceId = getDrawableResourceIdByName(splashScreenResourceName);
+				int notificationIconResourceId = getMipmapResourceIdByName(notificationIconResourceName);
+
+				Assistbox.initVideoCallWithAccessKey(reactContext.getCurrentActivity(), accessKey, mobileServiceEndpoint, splashScreenResourceId, notificationIconResourceId, fcmToken);
+				successCallback.invoke("Opening Assistbox SDK");
+			} catch(Exception e) {
+				errorCallback.invoke(e.getMessage());
+			}
+		});
+	}
+
+	@ReactMethod
+	public void initC2CModuleAsAgent(String mobileServiceEndpoint,
+									 String splashScreenResourceName,
+									 String notificationIconResourceName,
+									 String fcmToken,
+									 String oneSignalPushId,
+									 Callback successCallback,
+									 Callback errorCallback) {
+		UiThreadUtil.runOnUiThread(() -> {
+			try {
+
+				if (mobileServiceEndpoint == null || mobileServiceEndpoint.isEmpty()) {
+					errorCallback.invoke("Mobile Service Endpoint is required");
+					return;
+				}
+				if (fcmToken == null || fcmToken.isEmpty()) {
+					errorCallback.invoke("Firebase Cloud Messaging Token is required");
+					return;
+				}
+				this.reactContext.registerReceiver(redirectReceiver, new IntentFilter("AssistboxRedirection"));
+				int splashScreenResourceId = getDrawableResourceIdByName(splashScreenResourceName);
+				int notificationIconResourceId = getMipmapResourceIdByName(notificationIconResourceName);
+
+				Assistbox.initC2CModuleAsAgent(reactContext.getCurrentActivity(), mobileServiceEndpoint, fcmToken, oneSignalPushId, splashScreenResourceId, notificationIconResourceId);
+				successCallback.invoke("Opening Assistbox SDK");
+			} catch(Exception e) {
+				errorCallback.invoke(e.getMessage());
+			}
+		});
+	}
+
+	@ReactMethod
+	public void initC2CModuleAsClientWithApiKey(String apiKey,
+												String queueCode,
+												String mobileServiceEndpoint,
+												String firstName,
+												String lastName,
+												String email,
+												String phone,
+												String productName,
+												String language,
+												boolean showContactForm,
+												String splashScreenResourceName,
+												String notificationIconResourceName,
+												Callback successCallback,
+												Callback errorCallback) {
+		UiThreadUtil.runOnUiThread(() -> {
+			try {
+				if (mobileServiceEndpoint == null || mobileServiceEndpoint.isEmpty()) {
+					errorCallback.invoke("Mobile Service Endpoint is required");
+					return;
+				}
+				if (apiKey == null || apiKey.isEmpty()) {
+					errorCallback.invoke("Api Key is required");
+					return;
+				}
+				if (queueCode == null || queueCode.isEmpty()) {
+					errorCallback.invoke("Queue Code is required");
+					return;
+				}
+				this.reactContext.registerReceiver(redirectReceiver, new IntentFilter("AssistboxRedirection"));
+				int splashScreenResourceId = getDrawableResourceIdByName(splashScreenResourceName);
+				int notificationIconResourceId = getMipmapResourceIdByName(notificationIconResourceName);
+
+				Assistbox.initC2CModuleAsClientWithApiKey(reactContext.getCurrentActivity(), mobileServiceEndpoint, apiKey, queueCode, firstName, lastName, email, phone, productName,
+						language, showContactForm, splashScreenResourceId, notificationIconResourceId);
+				successCallback.invoke("Opening Assistbox SDK");
+			} catch(Exception e) {
+				errorCallback.invoke(e.getMessage());
+			}
+		});
+	}
+
+	@ReactMethod
+	public void initC2CModuleAsClientWithToken(String token,
+												String mobileServiceEndpoint,
+												String splashScreenResourceName,
+												String notificationIconResourceName,
+												Callback successCallback,
+												Callback errorCallback) {
+		UiThreadUtil.runOnUiThread(() -> {
+			try {
+				if (mobileServiceEndpoint == null || mobileServiceEndpoint.isEmpty()) {
+					errorCallback.invoke("Mobile Service Endpoint is required");
+					return;
+				}
+				if (token == null || token.isEmpty()) {
+					errorCallback.invoke("Token is required");
+					return;
+				}
+				this.reactContext.registerReceiver(redirectReceiver, new IntentFilter("AssistboxRedirection"));
+				int splashScreenResourceId = getDrawableResourceIdByName(splashScreenResourceName);
+				int notificationIconResourceId = getMipmapResourceIdByName(notificationIconResourceName);
+
+				Assistbox.initC2CModuleAsClientWithToken(reactContext.getCurrentActivity(), token, mobileServiceEndpoint, splashScreenResourceId, notificationIconResourceId);
+				successCallback.invoke("Opening Assistbox SDK");
+			} catch(Exception e) {
+				errorCallback.invoke(e.getMessage());
+			}
+		});
+	}
+
+	private int getDrawableResourceIdByName(String resourceName) {
 		if (resourceName == null || resourceName.isEmpty()) {
 			return 0;
 		}
 		return reactContext.getResources().getIdentifier(resourceName, "drawable", reactContext.getPackageName());
 	}
+
+	private int getMipmapResourceIdByName(String resourceName) {
+		if (resourceName == null || resourceName.isEmpty()) {
+			return 0;
+		}
+		return reactContext.getResources().getIdentifier(resourceName, "mipmap", reactContext.getPackageName());
+	}
+
 }
