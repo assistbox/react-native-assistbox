@@ -9,5 +9,5 @@
 #import <React/RCTUtils.h>
 #import <AssistboxLib/AssistboxLib-Swift.h>
 
-@interface ReactNativeAssistbox : RCTEventEmitter <RCTBridgeModule, AssistboxDelegate>
+@interface ReactNativeAssistbox : RCTEventEmitter <RCTBridgeModule, AssistboxEventDelegate>
 @end

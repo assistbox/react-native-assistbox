@@ -32,20 +32,13 @@ export default {
 		registerOnAssistboxRedirectListener();
 		if (Platform.OS.toLowerCase() === 'ios') {
 			ReactNativeAssistbox.initVideoCallWithToken(
-				opts.token,
-				opts.mobileServiceEndpoint,
-				opts.splashScreenResourceName,
-				opts.regularNotificationToken,
+				opts,
 				successCallback,
 				errorCallback
 			);
 		} else if (Platform.OS.toLowerCase() === "android") {
 			ReactNativeAssistbox.initVideoCallWithToken(
-				opts.token,
-				opts.mobileServiceEndpoint,
-				opts.splashScreenResourceName,
-				opts.notificationIconResourceName,
-				opts.regularNotificationToken,
+				opts,
 				successCallback,
 				errorCallback
 			);
@@ -56,20 +49,13 @@ export default {
 		registerOnAssistboxRedirectListener();
 		if (Platform.OS.toLowerCase() === 'ios') {
 			ReactNativeAssistbox.initVideoCallWithAccessKey(
-				opts.accessKey,
-				opts.mobileServiceEndpoint,
-				opts.splashScreenResourceName,
-				opts.regularNotificationToken,
+				opts,
 				successCallback,
 				errorCallback
 			);
 		} else if (Platform.OS.toLowerCase() === "android") {
 			ReactNativeAssistbox.initVideoCallWithAccessKey(
-				opts.accessKey,
-				opts.mobileServiceEndpoint,
-				opts.splashScreenResourceName,
-				opts.notificationIconResourceName,
-				opts.regularNotificationToken,
+				opts,
 				successCallback,
 				errorCallback
 			);
@@ -80,20 +66,13 @@ export default {
 		registerOnAssistboxRedirectListener();
 		if (Platform.OS.toLowerCase() === 'ios') {
 			ReactNativeAssistbox.initC2CModuleAsAgent(
-				opts.mobileServiceEndpoint,
-				opts.voipNotificationToken,
-				opts.splashScreenResourceName,
-				opts.regularNotificationToken,
+				opts,
 				successCallback,
 				errorCallback
 			);
 		} else if (Platform.OS.toLowerCase() === "android") {
 			ReactNativeAssistbox.initC2CModuleAsAgent(
-				opts.mobileServiceEndpoint,
-				opts.splashScreenResourceName,
-				opts.notificationIconResourceName,
-				opts.regularNotificationToken,
-				opts.oneSignalPushId,
+				opts,
 				successCallback,
 				errorCallback
 			);
@@ -104,34 +83,13 @@ export default {
 		registerOnAssistboxRedirectListener();
 		if (Platform.OS.toLowerCase() === 'ios') {
 			ReactNativeAssistbox.initC2CModuleAsClientWithApiKey(
-				opts.apiKey,
-				opts.queueCode,
-				opts.mobileServiceEndpoint,
-				opts.firstName,
-				opts.lastName,
-				opts.email,
-				opts.phone,
-				opts.productName,
-				opts.language,
-				opts.splashScreenResourceName,
-				opts.regularNotificationToken,
+				opts,
 				successCallback,
 				errorCallback
 			);
 		} else if (Platform.OS.toLowerCase() === "android") {
 			ReactNativeAssistbox.initC2CModuleAsClientWithApiKey(
-				opts.apiKey,
-				opts.queueCode,
-				opts.mobileServiceEndpoint,
-				opts.firstName,
-				opts.lastName,
-				opts.email,
-				opts.phone,
-				opts.productName,
-				opts.language,
-				opts.showContactForm,
-				opts.splashScreenResourceName,
-				opts.notificationIconResourceName,
+				opts,
 				successCallback,
 				errorCallback
 			);
@@ -142,19 +100,13 @@ export default {
 		registerOnAssistboxRedirectListener();
 		if (Platform.OS.toLowerCase() === 'ios') {
 			ReactNativeAssistbox.initC2CModuleAsClientWithToken(
-				opts.token,
-				opts.mobileServiceEndpoint,
-				opts.splashScreenResourceName,
-				opts.regularNotificationToken,
+				opts,
 				successCallback,
 				errorCallback
 			);
 		} else if (Platform.OS.toLowerCase() === "android") {
 			ReactNativeAssistbox.initC2CModuleAsClientWithToken(
-				opts.token,
-				opts.mobileServiceEndpoint,
-				opts.splashScreenResourceName,
-				opts.notificationIconResourceName,
+				opts,
 				successCallback,
 				errorCallback
 			);
