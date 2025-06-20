@@ -1,6 +1,6 @@
 {
 	"name": "react-native-assistbox",
-	"version": "2.4.0",
+	"version": "12.0.0",
 	"description": "React Native module for Assistbox iOS and Android libraries",
 	"homepage": "https://assistbox.io",
 	"main": "index.js",
@@ -13,7 +13,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/AssistBox/react-native-assistbox.git"
+		"url": "git+https://github.com/assistbox/react-native-assistbox.git"
 	},
 	"author": "Assistbox",
 	"license": "MIT"

@@ -10,14 +10,12 @@ Pod::Spec.new do |s|
 
   s.authors      = package['author']
   s.homepage     = package['homepage']
-  s.platform     = :ios, "11.0"
+  s.platform     = :ios, "12.0"
 
   s.xcconfig = { 'FRAMEWORK_SEARCH_PATHS' => '"${SRCROOT}/.."/**' }
 
-  s.source       = { :git => "https://github.com/AssistBox/react-native-assistbox.git", :tag => "v#{s.version}" }
-  s.source_files  = "**/*.{h,m}"
+  s.source       = { :git => "https://github.com/assistbox/react-native-assistbox.git", :tag => "v#{s.version}" }
+  s.source_files  = "**/*.{h,m,swift}"
 
   s.dependency 'React-Core'
-  s.dependency 'Socket.IO-Client-Swift', '~> 16.0.1'
-  s.dependency 'SwiftStomp'
 end
