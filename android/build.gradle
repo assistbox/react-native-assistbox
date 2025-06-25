@@ -28,9 +28,19 @@ repositories {
     mavenCentral()
 }
 
+def assistboxAar = fileTree(dir: "$rootDir/libs", include: "assistbox-*.aar")
+def hasLocalAar = !assistboxAar.isEmpty()
+
 dependencies {
-    implementation 'com.facebook.react:react-native:+'
-    implementation fileTree(dir: "$rootDir/libs", include: "libwebrtc-*.aar")
-    implementation fileTree(dir: "$rootDir/libs", include: "assistbox-*.aar")
+    implementation libs.react.android
+
+    if (hasLocalAar) {
+        implementation assistboxAar
+        implementation fileTree(dir: "$rootDir/libs", include: "libwebrtc-*.aar")
+    }
+
+    if (!hasLocalAar) {
+        compileOnly libs.assistbox.lib
+        compileOnly libs.assistbox.webrtc
+    }
 }
-  
