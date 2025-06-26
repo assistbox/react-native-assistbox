@@ -1,6 +1,7 @@
-
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="io.assistbox.reactnative">
-
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <meta-data
+            android:name="io.assistbox.AssistboxEventHandler"
+            android:value="io.assistbox.reactnative.AssistboxEventHandlerImpl" />
+    </application>
 </manifest>
-  

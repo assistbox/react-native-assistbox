@@ -5,13 +5,14 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
-    compileSdkVersion safeExtGet('compileSdkVersion', 33)
+    compileSdkVersion safeExtGet('compileSdkVersion', 34)
+    namespace "io.assistbox.reactnative"
 
     defaultConfig {
-        minSdkVersion safeExtGet('minSdkVersion', 21)
-        targetSdkVersion safeExtGet('targetSdkVersion', 33)
+        minSdkVersion safeExtGet('minSdkVersion', 24)
+        targetSdkVersion safeExtGet('targetSdkVersion', 34)
         versionCode 1
-        versionName "2.4.0"
+        versionName "12.0.0"
     }
     lintOptions {
         abortOnError false
@@ -27,16 +28,19 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation 'com.facebook.react:react-native:+'
-    implementation fileTree(dir: "$rootDir/libs", include: "libwebrtc-*.aar")
-    implementation fileTree(dir: "$rootDir/libs", include: "assistbox-*.aar")
+def assistboxAar = fileTree(dir: "$rootDir/libs", include: "assistbox-*.aar")
+def hasLocalAar = !assistboxAar.isEmpty()
 
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.github.forresthopkinsa:stompprotocolandroid:17.11.0'
-    implementation('io.socket:socket.io-client:1.0.2') {
-        // excluding org.json which is provided by Android
-        exclude group: 'org.json', module: 'json'
+dependencies {
+    implementation libs.react.android
+
+    if (hasLocalAar) {
+        implementation assistboxAar
+        implementation fileTree(dir: "$rootDir/libs", include: "libwebrtc-*.aar")
+    }
+
+    if (!hasLocalAar) {
+        compileOnly libs.assistbox.lib
+        compileOnly libs.assistbox.webrtc
     }
 }
-  
