@@ -601,10 +601,38 @@ RCT_EXPORT_METHOD(dispatchAssistboxAction:(NSString *)action params:(NSDictionar
 }
 
 - (void)onErrorWithErrorCode:(NSInteger)errorCode error:(NSError *)error payload:(NSDictionary *)payload {
-    NSMutableDictionary *body = [@{@"errorCode": @(errorCode)} mutableCopy];
-    if (error) body[@"error"] = error.localizedDescription;
-    if (payload) [body addEntriesFromDictionary:payload];
-    [self sendEventWithName:@"onError" body:body];
+	NSString *errorCodeString = ErrorEventCodeToString(errorCode);
+	NSMutableDictionary *body = [@{@"errorCode": errorCodeString} mutableCopy];
+	if (error) body[@"error"] = error.localizedDescription;
+	if (payload) [body addEntriesFromDictionary:payload];
+	[self sendEventWithName:@"onError" body:body];
+}
+
+static inline NSString *ErrorEventCodeToString(NSInteger errorCode) {
+	switch (errorCode) {
+		case 0: return @"CAMERA_TOGGLING_ERROR";
+		case 1: return @"MICROPHONE_TOGGLING_ERROR";
+		case 2: return @"HOLD_TOGGLING_ERROR";
+		case 3: return @"CAMERA_SWITCHING_ERROR";
+		case 4: return @"FILE_UPLOADING_ERROR";
+		case 5: return @"FLASHLIGHT_TOGGLING_ERROR";
+		case 6: return @"SIGNAL_CONNECTION_ERROR";
+		case 7: return @"VIDEO_RECORDING_ERROR";
+		case 8: return @"AUDIO_RECORDING_ERROR";
+		case 9: return @"PICTURE_IN_PICTURE_ENTER_ERROR";
+		case 10: return @"UNAUTHORIZED_ERROR";
+		case 11: return @"FORBIDDEN_ERROR";
+		case 12: return @"WEB_VIEW_VERSION_OLD_ERROR";
+		case 13: return @"PERMISSIONS_NOT_GRANTED_ERROR";
+		case 14: return @"ACCESS_KEY_NOT_FOUND_ERROR";
+		case 15: return @"POLICY_DENIED_ERROR";
+		case 16: return @"CONNECTION_ERROR";
+		case 17: return @"UNKNOWN_API_ERROR";
+		case 18: return @"CAMERA_ERROR";
+		case 19: return @"MICROPHONE_ERROR";
+		case 20: return @"TRANSLATE_FILE_FETCH_ERROR";
+		default: return @"UNKNOWN";
+	}
 }
 
 - (void)onEventHandlerErrorWithPayload:(NSDictionary *)payload {
@@ -623,11 +651,24 @@ RCT_EXPORT_METHOD(dispatchAssistboxAction:(NSString *)action params:(NSDictionar
     [self sendEventWithName:@"onSocketReconnectionSuccess" body:nil];
 }
 
-- (void)onAppointmentStatusChangedWithAppointmentStatus:(NSString *)appointmentStatus reason:(NSString *)reason {
-    [self sendEventWithName:@"onAppointmentStatusChanged" body:@{
-        @"appointmentStatus": appointmentStatus ?: @"",
-        @"reason": reason ?: @""
-    }];
+- (void)onAppointmentStatusChangedWithAppointmentStatus:(enum AppointmentStatus)appointmentStatus reason:(NSString * _Nonnull)reason {
+	NSString *statusString = AppointmentStatusToString(appointmentStatus);
+	[self sendEventWithName:@"onAppointmentStatusChanged" body:@{
+		@"status": statusString ?: @"",
+		@"reason": reason ?: @""
+	}];
+}
+
+static inline NSString *AppointmentStatusToString(AppointmentStatus status) {
+	switch (status) {
+		case AppointmentStatusNEW: return @"NEW";
+		case AppointmentStatusREJ: return @"REJ";
+		case AppointmentStatusINP: return @"INP";
+		case AppointmentStatusWAI: return @"WAI";
+		case AppointmentStatusCOM: return @"COM";
+		case AppointmentStatusQUE: return @"QUE";
+		default: return @"UNKNOWN";
+	}
 }
 
 - (void)onOpenMicrophoneButtonClick{

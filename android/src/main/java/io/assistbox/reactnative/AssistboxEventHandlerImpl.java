@@ -170,7 +170,7 @@ public class AssistboxEventHandlerImpl implements AssistboxEventHandler {
 	@Override
 	public void onError(@NonNull ErrorEventCode errorEventCode, @Nullable String message, @Nullable JSONObject payload) {
 		WritableMap params = Arguments.createMap();
-		params.putString("errorEventCode", errorEventCode != null ? errorEventCode.name() : null);
+		params.putString("errorCode", errorEventCode != null ? errorEventCode.name() : null);
 		params.putString("message", message);
 		params.putString("payload", payload != null ? payload.toString() : null);
 		ReactNativeAssistboxModule.emitEventToReact("onError", params);
