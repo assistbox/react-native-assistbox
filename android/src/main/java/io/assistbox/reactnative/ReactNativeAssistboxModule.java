@@ -43,10 +43,15 @@ import io.assistbox.enums.FontWeight;
 import io.assistbox.enums.Language;
 import io.assistbox.enums.LocalViewPosition;
 import io.assistbox.enums.MeetingButtonType;
+import io.assistbox.enums.MessageType;
 import io.assistbox.enums.SupportedMessagingServices;
 import io.assistbox.enums.UsageModule;
+import io.assistbox.enums.WebRTCPluginType;
 import io.assistbox.event.AssistboxEventHandler;
 import io.assistbox.util.log.LogService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 	private static final String TAG = "ReactNativeAssistboxModule";
@@ -68,8 +73,8 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 
 	@ReactMethod
 	public void initVideoCallWithToken(ReadableMap options,
-									   Callback successCallback,
-									   Callback errorCallback) {
+			Callback successCallback,
+			Callback errorCallback) {
 		Assistbox.AssistboxOptions assistboxOptions = createAssistboxOptionsFromReadableMap(options);
 
 		UiThreadUtil.runOnUiThread(() -> {
@@ -78,7 +83,8 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 					errorCallback.invoke("Token is required");
 					return;
 				}
-				if (assistboxOptions.mobileServiceEndpoint == null || assistboxOptions.mobileServiceEndpoint.isEmpty()) {
+				if (assistboxOptions.mobileServiceEndpoint == null
+						|| assistboxOptions.mobileServiceEndpoint.isEmpty()) {
 					errorCallback.invoke("Mobile Service Endpoint is required");
 					return;
 				}
@@ -88,7 +94,7 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 				}
 				Assistbox.initVideoCallWithToken(reactContext.getCurrentActivity(), assistboxOptions);
 				successCallback.invoke("Opening Assistbox SDK");
-			} catch(Exception e) {
+			} catch (Exception e) {
 				errorCallback.invoke(e.getMessage());
 			}
 		});
@@ -96,8 +102,8 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 
 	@ReactMethod
 	public void initVideoCallWithAccessKey(ReadableMap options,
-										   Callback successCallback,
-										   Callback errorCallback) {
+			Callback successCallback,
+			Callback errorCallback) {
 
 		Assistbox.AssistboxOptions assistboxOptions = createAssistboxOptionsFromReadableMap(options);
 
@@ -107,7 +113,8 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 					errorCallback.invoke("Access Key is required");
 					return;
 				}
-				if (assistboxOptions.mobileServiceEndpoint == null || assistboxOptions.mobileServiceEndpoint.isEmpty()) {
+				if (assistboxOptions.mobileServiceEndpoint == null
+						|| assistboxOptions.mobileServiceEndpoint.isEmpty()) {
 					errorCallback.invoke("Mobile Service Endpoint is required");
 					return;
 				}
@@ -117,7 +124,7 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 				}
 				Assistbox.initVideoCallWithAccessKey(reactContext.getCurrentActivity(), assistboxOptions);
 				successCallback.invoke("Opening Assistbox SDK");
-			} catch(Exception e) {
+			} catch (Exception e) {
 				errorCallback.invoke(e.getMessage());
 			}
 		});
@@ -125,15 +132,16 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 
 	@ReactMethod
 	public void initC2CModuleAsAgent(ReadableMap options,
-									 Callback successCallback,
-									 Callback errorCallback) {
+			Callback successCallback,
+			Callback errorCallback) {
 
 		Assistbox.AssistboxOptions assistboxOptions = createAssistboxOptionsFromReadableMap(options);
 
 		UiThreadUtil.runOnUiThread(() -> {
 			try {
 
-				if (assistboxOptions.mobileServiceEndpoint == null || assistboxOptions.mobileServiceEndpoint.isEmpty()) {
+				if (assistboxOptions.mobileServiceEndpoint == null
+						|| assistboxOptions.mobileServiceEndpoint.isEmpty()) {
 					errorCallback.invoke("Mobile Service Endpoint is required");
 					return;
 				}
@@ -147,7 +155,7 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 				}
 				Assistbox.initC2CModuleAsAgent(reactContext.getCurrentActivity(), assistboxOptions);
 				successCallback.invoke("Opening Assistbox SDK");
-			} catch(Exception e) {
+			} catch (Exception e) {
 				errorCallback.invoke(e.getMessage());
 			}
 		});
@@ -155,14 +163,15 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 
 	@ReactMethod
 	public void initC2CModuleAsClientWithApiKey(ReadableMap options,
-												Callback successCallback,
-												Callback errorCallback) {
+			Callback successCallback,
+			Callback errorCallback) {
 
 		Assistbox.AssistboxOptions assistboxOptions = createAssistboxOptionsFromReadableMap(options);
 
 		UiThreadUtil.runOnUiThread(() -> {
 			try {
-				if (assistboxOptions.mobileServiceEndpoint == null || assistboxOptions.mobileServiceEndpoint.isEmpty()) {
+				if (assistboxOptions.mobileServiceEndpoint == null
+						|| assistboxOptions.mobileServiceEndpoint.isEmpty()) {
 					errorCallback.invoke("Mobile Service Endpoint is required");
 					return;
 				}
@@ -180,7 +189,7 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 				}
 				Assistbox.initC2CModuleAsClientWithApiKey(reactContext.getCurrentActivity(), assistboxOptions);
 				successCallback.invoke("Opening Assistbox SDK");
-			} catch(Exception e) {
+			} catch (Exception e) {
 				errorCallback.invoke(e.getMessage());
 			}
 		});
@@ -188,14 +197,15 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 
 	@ReactMethod
 	public void initC2CModuleAsClientWithToken(ReadableMap options,
-											   Callback successCallback,
-											   Callback errorCallback) {
+			Callback successCallback,
+			Callback errorCallback) {
 
 		Assistbox.AssistboxOptions assistboxOptions = createAssistboxOptionsFromReadableMap(options);
 
 		UiThreadUtil.runOnUiThread(() -> {
 			try {
-				if (assistboxOptions.mobileServiceEndpoint == null || assistboxOptions.mobileServiceEndpoint.isEmpty()) {
+				if (assistboxOptions.mobileServiceEndpoint == null
+						|| assistboxOptions.mobileServiceEndpoint.isEmpty()) {
 					errorCallback.invoke("Mobile Service Endpoint is required");
 					return;
 				}
@@ -209,7 +219,156 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 				}
 				Assistbox.initC2CModuleAsClientWithToken(reactContext.getCurrentActivity(), assistboxOptions);
 				successCallback.invoke("Opening Assistbox SDK");
-			} catch(Exception e) {
+			} catch (Exception e) {
+				errorCallback.invoke(e.getMessage());
+			}
+		});
+	}
+
+	@ReactMethod
+	public void initNativeVideoCallWithToken(ReadableMap options,
+			Callback successCallback,
+			Callback errorCallback) {
+		Assistbox.AssistboxOptions assistboxOptions = createAssistboxOptionsFromReadableMap(options);
+
+		UiThreadUtil.runOnUiThread(() -> {
+			try {
+				if (assistboxOptions.accessToken == null || assistboxOptions.accessToken.isEmpty()) {
+					errorCallback.invoke("Token is required");
+					return;
+				}
+				if (assistboxOptions.mobileServiceEndpoint == null
+						|| assistboxOptions.mobileServiceEndpoint.isEmpty()) {
+					errorCallback.invoke("Mobile Service Endpoint is required");
+					return;
+				}
+				if (reactContext.getCurrentActivity() == null) {
+					errorCallback.invoke("Could not get current react activity");
+					return;
+				}
+				Assistbox.initNativeVideoCallWithToken(reactContext.getCurrentActivity(), assistboxOptions);
+				successCallback.invoke("Opening Assistbox SDK");
+			} catch (Exception e) {
+				errorCallback.invoke(e.getMessage());
+			}
+		});
+	}
+
+	@ReactMethod
+	public void initNativeVideoCallWithAccessKey(ReadableMap options,
+			Callback successCallback,
+			Callback errorCallback) {
+		Assistbox.AssistboxOptions assistboxOptions = createAssistboxOptionsFromReadableMap(options);
+
+		UiThreadUtil.runOnUiThread(() -> {
+			try {
+				if (assistboxOptions.accessKey == null || assistboxOptions.accessKey.isEmpty()) {
+					errorCallback.invoke("Access Key is required");
+					return;
+				}
+				if (assistboxOptions.mobileServiceEndpoint == null
+						|| assistboxOptions.mobileServiceEndpoint.isEmpty()) {
+					errorCallback.invoke("Mobile Service Endpoint is required");
+					return;
+				}
+				if (reactContext.getCurrentActivity() == null) {
+					errorCallback.invoke("Could not get current react activity");
+					return;
+				}
+				Assistbox.initNativeVideoCallWithAccessKey(reactContext.getCurrentActivity(), assistboxOptions);
+				successCallback.invoke("Opening Assistbox SDK");
+			} catch (Exception e) {
+				errorCallback.invoke(e.getMessage());
+			}
+		});
+	}
+
+	@ReactMethod
+	public void initNativeC2CModuleAsAgent(ReadableMap options,
+			Callback successCallback,
+			Callback errorCallback) {
+		Assistbox.AssistboxOptions assistboxOptions = createAssistboxOptionsFromReadableMap(options);
+
+		UiThreadUtil.runOnUiThread(() -> {
+			try {
+				if (assistboxOptions.mobileServiceEndpoint == null
+						|| assistboxOptions.mobileServiceEndpoint.isEmpty()) {
+					errorCallback.invoke("Mobile Service Endpoint is required");
+					return;
+				}
+				if (assistboxOptions.pushToken == null || assistboxOptions.pushToken.isEmpty()) {
+					errorCallback.invoke("Firebase Cloud Messaging Token is required");
+					return;
+				}
+				if (reactContext.getCurrentActivity() == null) {
+					errorCallback.invoke("Could not get current react activity");
+					return;
+				}
+				Assistbox.initNativeC2CModuleAsAgent(reactContext.getCurrentActivity(), assistboxOptions);
+				successCallback.invoke("Opening Assistbox SDK");
+			} catch (Exception e) {
+				errorCallback.invoke(e.getMessage());
+			}
+		});
+	}
+
+	@ReactMethod
+	public void initNativeC2CModuleAsClientWithApiKey(ReadableMap options,
+			Callback successCallback,
+			Callback errorCallback) {
+		Assistbox.AssistboxOptions assistboxOptions = createAssistboxOptionsFromReadableMap(options);
+
+		UiThreadUtil.runOnUiThread(() -> {
+			try {
+				if (assistboxOptions.mobileServiceEndpoint == null
+						|| assistboxOptions.mobileServiceEndpoint.isEmpty()) {
+					errorCallback.invoke("Mobile Service Endpoint is required");
+					return;
+				}
+				if (assistboxOptions.apiKey == null || assistboxOptions.apiKey.isEmpty()) {
+					errorCallback.invoke("Api Key is required");
+					return;
+				}
+				if (assistboxOptions.queueCode == null || assistboxOptions.queueCode.isEmpty()) {
+					errorCallback.invoke("Queue Code is required");
+					return;
+				}
+				if (reactContext.getCurrentActivity() == null) {
+					errorCallback.invoke("Could not get current react activity");
+					return;
+				}
+				Assistbox.initNativeC2CModuleAsClientWithApiKey(reactContext.getCurrentActivity(), assistboxOptions);
+				successCallback.invoke("Opening Assistbox SDK");
+			} catch (Exception e) {
+				errorCallback.invoke(e.getMessage());
+			}
+		});
+	}
+
+	@ReactMethod
+	public void initNativeC2CModuleAsClientWithToken(ReadableMap options,
+			Callback successCallback,
+			Callback errorCallback) {
+		Assistbox.AssistboxOptions assistboxOptions = createAssistboxOptionsFromReadableMap(options);
+
+		UiThreadUtil.runOnUiThread(() -> {
+			try {
+				if (assistboxOptions.mobileServiceEndpoint == null
+						|| assistboxOptions.mobileServiceEndpoint.isEmpty()) {
+					errorCallback.invoke("Mobile Service Endpoint is required");
+					return;
+				}
+				if (assistboxOptions.accessToken == null || assistboxOptions.accessToken.isEmpty()) {
+					errorCallback.invoke("Token is required");
+					return;
+				}
+				if (reactContext.getCurrentActivity() == null) {
+					errorCallback.invoke("Could not get current react activity");
+					return;
+				}
+				Assistbox.initNativeC2CModuleAsClientWithToken(reactContext.getCurrentActivity(), assistboxOptions);
+				successCallback.invoke("Opening Assistbox SDK");
+			} catch (Exception e) {
 				errorCallback.invoke(e.getMessage());
 			}
 		});
@@ -256,6 +415,7 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 		return reactContext.getResources().getIdentifier(resourceName, "mipmap", reactContext.getPackageName());
 	}
 
+	// Absent keys leave the corresponding option untouched (SDK defaults preserved)
 	private Assistbox.AssistboxOptions createAssistboxOptionsFromReadableMap(ReadableMap map) {
 		Assistbox.AssistboxOptions options = new Assistbox.AssistboxOptions();
 		if (map.hasKey("accessToken")) {
@@ -428,6 +588,41 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 			String colorString = map.getString("videoCallBackgroundColor");
 			options.videoCallBackgroundColor = Color.parseColor(colorString);
 		}
+		if (map.hasKey("enableLegacyButtonLayout")) {
+			options.enableLegacyButtonLayout = map.getBoolean("enableLegacyButtonLayout");
+		}
+		if (map.hasKey("messageType")) {
+			// fromName is case-insensitive; invalid values fall back to SNACKBAR (SDK default)
+			options.messageType = MessageType.fromName(map.getString("messageType"));
+		}
+		if (map.hasKey("webrtcPluginType")) {
+			// fromName expects exact "VIDEO_ROOM"/"SIP"; JS sends "videoRoom"/"sip" (contract
+			// shared with iOS), which would silently fall through to the default — hence the
+			// explicit mapping
+			String pluginTypeName = map.getString("webrtcPluginType");
+			if ("videoRoom".equals(pluginTypeName)) {
+				options.webrtcPluginType = WebRTCPluginType.VIDEO_ROOM;
+			} else if ("sip".equals(pluginTypeName)) {
+				options.webrtcPluginType = WebRTCPluginType.SIP;
+			}
+		}
+		if (map.hasKey("eventHandlerToken")) {
+			options.eventHandlerToken = map.getString("eventHandlerToken");
+		}
+		if (map.hasKey("eventHandlerHeaders")) {
+			ReadableMap headersMap = map.getMap("eventHandlerHeaders");
+			JSONObject headers = new JSONObject();
+			ReadableMapKeySetIterator iterator = headersMap.keySetIterator();
+			try {
+				while (iterator.hasNextKey()) {
+					String key = iterator.nextKey();
+					headers.put(key, headersMap.getString(key));
+				}
+				options.eventHandlerHeaders = headers;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 		return options;
 	}
 
@@ -459,7 +654,33 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 				AssistboxActions.enterPictureInPicture();
 				break;
 			case "stopMeeting":
-				AssistboxActions.stopMeeting();
+				if (params.hasKey("showEndMeetingDialog")) {
+					AssistboxActions.stopMeeting(params.getBoolean("showEndMeetingDialog"));
+				} else {
+					AssistboxActions.stopMeeting();
+				}
+				break;
+			case "startScreenShare":
+				AssistboxActions.startScreenShare();
+				break;
+			case "stopScreenShare":
+				AssistboxActions.stopScreenShare();
+				break;
+			case "pauseScreenShare":
+				AssistboxActions.pauseScreenShare();
+				break;
+			case "resumeScreenShare":
+				AssistboxActions.resumeScreenShare();
+				break;
+			case "hideComponents":
+				if (params.hasKey("components")) {
+					AssistboxActions.hideComponents(componentsFromArray(params.getArray("components")));
+				}
+				break;
+			case "showComponents":
+				if (params.hasKey("components")) {
+					AssistboxActions.showComponents(componentsFromArray(params.getArray("components")));
+				}
 				break;
 			case "tryReconnection":
 				boolean showReconnectionDialog = true;
@@ -471,6 +692,21 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 		}
 	}
 
+	// Unknown component names are logged and skipped (consistent with the iOS bridge) to
+	// avoid an IllegalArgumentException crash from Component.valueOf
+	private static Set<Component> componentsFromArray(ReadableArray array) {
+		Set<Component> components = new HashSet<>();
+		for (int i = 0; i < array.size(); i++) {
+			String name = array.getString(i);
+			try {
+				components.add(Component.valueOf(name));
+			} catch (IllegalArgumentException | NullPointerException e) {
+				LogService.error(TAG, "Unknown component name: " + name);
+			}
+		}
+		return components;
+	}
+
 	@ReactMethod
 	public void showCustomDialogFragment(String fragmentClassName) {
 		if (getReactApplicationContext().getCurrentActivity() != null) {
@@ -479,7 +715,7 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 				Class<?> clazz = Class.forName(fragmentClassName);
 				DialogFragment fragment = (DialogFragment) clazz.getMethod("newInstance").invoke(null);
 				Assistbox.showDialogFragment(application, fragment, "EXAMPLE_DIALOG_FRAGMENT");
-			} catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -498,7 +734,7 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 		try {
 			boolean result = Assistbox.isSdkOpen();
 			promise.resolve(result);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			promise.reject("E_SDK_OPEN", e);
 		}
 	}
@@ -614,6 +850,28 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 					.emit("onEnterPictureInPictureButtonClick", null);
 		} else {
 			AssistboxActions.enterPictureInPicture();
+		}
+	}
+
+	public static void emitStartScreenShareButtonClick() {
+		boolean isRegistered = eventListenerRegistry.get("onStartScreenShareButtonClick") == Boolean.TRUE;
+		if (isRegistered && reactContextInstance != null && reactContextInstance.hasActiveCatalystInstance()) {
+			reactContextInstance
+					.getJSModule(com.facebook.react.modules.core.DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+					.emit("onStartScreenShareButtonClick", null);
+		} else {
+			AssistboxActions.startScreenShare();
+		}
+	}
+
+	public static void emitStopScreenShareButtonClick() {
+		boolean isRegistered = eventListenerRegistry.get("onStopScreenShareButtonClick") == Boolean.TRUE;
+		if (isRegistered && reactContextInstance != null && reactContextInstance.hasActiveCatalystInstance()) {
+			reactContextInstance
+					.getJSModule(com.facebook.react.modules.core.DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+					.emit("onStopScreenShareButtonClick", null);
+		} else {
+			AssistboxActions.stopScreenShare();
 		}
 	}
 

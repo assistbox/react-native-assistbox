@@ -8,7 +8,10 @@ import io.assistbox.event.AssistboxEventHandler;
 import io.assistbox.Assistbox;
 import io.assistbox.annotation.OverridesDefaultBehavior;
 import io.assistbox.enums.AppointmentStatus;
+import io.assistbox.enums.FlashlightError;
 import io.assistbox.enums.MeetingEndReason;
+import io.assistbox.enums.ScreenShareEvent;
+import io.assistbox.enums.SipCallEvent;
 import io.assistbox.event.AssistboxEventHandler;
 import io.assistbox.event.ErrorEventCode;
 import io.assistbox.util.log.LogService;
@@ -109,9 +112,10 @@ public class AssistboxEventHandlerImpl implements AssistboxEventHandler {
 	}
 
 	@Override
-	public void onFlashToggleError(String error) {
+	public void onFlashToggleError(FlashlightError error) {
 		WritableMap params = Arguments.createMap();
-		params.putString("error", error);
+		// name() returns SCREAMING_SNAKE; same error-code set as the iOS bridge
+		params.putString("error", error != null ? error.name() : null);
 		ReactNativeAssistboxModule.emitEventToReact("onFlashToggleError", params);
 	}
 
@@ -203,6 +207,39 @@ public class AssistboxEventHandlerImpl implements AssistboxEventHandler {
 		ReactNativeAssistboxModule.emitEventToReact("onCameraDisconnected", null);
 	}
 
+	// The parameterless deprecated overload is intentionally NOT overridden: the SDK invokes it
+	// twice when attempt == 1 (SignallingManager + ASTEventManager compat branches); overriding
+	// only the parameterized overload guarantees a single emit
+	@Override
+	public void onSocketReconnectionAttempt(int attempt) {
+		WritableMap params = Arguments.createMap();
+		params.putInt("attempt", attempt);
+		ReactNativeAssistboxModule.emitEventToReact("onSocketReconnectionAttempt", params);
+	}
+
+	@Override
+	public void onSocketReconnectionSuccess() {
+		ReactNativeAssistboxModule.emitEventToReact("onSocketReconnectionSuccess", null);
+	}
+
+	@Override
+	public void onScreenShareEvent(@NonNull ScreenShareEvent screenShareEvent, @Nullable String message) {
+		WritableMap params = Arguments.createMap();
+		// getName() returns SCREAMING_SNAKE; the native value is sent as-is, normalization happens in JS
+		params.putString("event", screenShareEvent.getName());
+		if (message != null) {
+			params.putString("message", message);
+		}
+		ReactNativeAssistboxModule.emitEventToReact("onScreenShareEvent", params);
+	}
+
+	@Override
+	public void onSipCallEvent(SipCallEvent sipCallEvent) {
+		WritableMap params = Arguments.createMap();
+		params.putString("event", sipCallEvent != null ? sipCallEvent.name() : null);
+		ReactNativeAssistboxModule.emitEventToReact("onSipCallEvent", params);
+	}
+
 
 	@Override
 	public void onOpenMicrophoneButtonClick() {
@@ -247,5 +284,15 @@ public class AssistboxEventHandlerImpl implements AssistboxEventHandler {
 	@Override
 	public void onEnterPictureInPictureButtonClick() {
 		ReactNativeAssistboxModule.emitEnterPictureInPictureButtonClick();
+	}
+
+	@Override
+	public void onStartScreenShareButtonClick() {
+		ReactNativeAssistboxModule.emitStartScreenShareButtonClick();
+	}
+
+	@Override
+	public void onStopScreenShareButtonClick() {
+		ReactNativeAssistboxModule.emitStopScreenShareButtonClick();
 	}
 }
