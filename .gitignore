@@ -1,5 +1,52 @@
-ios/ReactNativeAssistbox.xcodeproj/project.xcworkspace/xcuserdata
-.gradle
-.idea
+# OSX
 .DS_Store
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+*.tgz
+
+# Xcode
+ios/build/
+DerivedData/
+xcuserdata/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+ios/Pods/
+ios/ReactNativeAssistbox.xcodeproj/project.xcworkspace/xcuserdata
+
+# Android / Gradle
+build/
+android/build/
+android/bin/
+.gradle/
+.gradle
 android/local.properties
+local.properties
+*.iml
+*.dex
+*.class
+*.aar
+*.apk
+
+# IDE
+.idea
+.vscode/
+
+# Backup / patch artifacts
+*.orig
+*.rej
+
+# Internal working documents (kept locally, not published)
+/MIGRATION.md
+/TEST_CHECKLIST.md
+ANDROID_ACTIONS_*.md
+PARITY_*.md
+assistbox-*-practices.md
