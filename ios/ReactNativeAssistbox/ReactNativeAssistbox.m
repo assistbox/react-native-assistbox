@@ -338,7 +338,6 @@ RCT_EXPORT_METHOD(dispatchAssistboxAction:(NSString *)action params:(NSDictionar
 					else if ([item isEqualToString:@"BTN_EXTERNAL_LINK"]) val = ComponentBTN_EXTERNAL_LINK;
 					else if ([item isEqualToString:@"LBL_QUEUE_ORDER"]) val = ComponentLBL_QUEUE_ORDER;
 					else if ([item isEqualToString:@"LBL_WAITING_QUEUE"]) val = ComponentLBL_WAITING_QUEUE;
-					else if ([item isEqualToString:@"BTN_PIN_VIDEO_VIEW"]) val = ComponentBTN_PIN_VIDEO_VIEW;
 					
 					if (val != -1) {
 						[numericList addObject:@(val)];
