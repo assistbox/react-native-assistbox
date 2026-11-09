@@ -498,9 +498,6 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 		if (map.hasKey("isPipEnabled")) {
 			options.isPipEnabled = map.getBoolean("isPipEnabled");
 		}
-		if (map.hasKey("sessionId")) {
-			options.sessionId = map.getString("sessionId");
-		}
 		if (map.hasKey("hiddenComponentList")) {
 			ReadableArray hiddenArray = map.getArray("hiddenComponentList");
 			Set<Component> hiddenComponentSet = new HashSet<>();
