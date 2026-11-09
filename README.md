@@ -5,7 +5,7 @@ React Native bridge for the [Assistbox](https://assistbox.io) video calling and 
 ## Requirements
 
 - **iOS:** 13.0+, CocoaPods. The `AssistboxLib` and `WebRTC` xcframeworks (provided by Assistbox) must be added by the consuming app.
-- **Android:** minSdk 24, compileSdk 34. The Assistbox SDK 21.x AARs (`assistbox-*.aar`, `libwebrtc-*.aar`) must be provided by the consuming app.
+- **Android:** minSdk 24, compileSdk 34. The Assistbox SDK 24.x AARs (`assistbox-*.aar`, `libwebrtc-*.aar`) must be provided by the consuming app.
 
 ## Installation
 
@@ -13,7 +13,7 @@ Add the package from a git tag:
 
 ```json
 "dependencies": {
-	"react-native-assistbox": "github:assistbox/react-native-assistbox#v22.0.0"
+	"react-native-assistbox": "github:assistbox/react-native-assistbox#v24.0.0"
 }
 ```
 
