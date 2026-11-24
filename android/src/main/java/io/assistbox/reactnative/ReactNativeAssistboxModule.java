@@ -22,6 +22,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
+import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
@@ -34,6 +35,7 @@ import java.util.Set;
 
 // Assistbox core
 import io.assistbox.Assistbox;
+import io.assistbox.RTPSenderParameters;
 import io.assistbox.action.AssistboxActions;
 import io.assistbox.data.net.entity.CustomFont;
 import io.assistbox.enums.AppointmentStatus;
@@ -516,8 +518,23 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 		if (map.hasKey("enableConnectionService")) {
 			options.enableConnectionService = map.getBoolean("enableConnectionService");
 		}
-		if (map.hasKey("maxBitrate")) {
-			options.maxBitrate = map.getInt("maxBitrate");
+		if (map.hasKey("rtpSenderParameters") && map.getType("rtpSenderParameters") == ReadableType.Map) {
+			ReadableMap rtpSenderParameters = map.getMap("rtpSenderParameters");
+			options.rtpSenderParameters = new RTPSenderParameters(
+					optionalInt(rtpSenderParameters, "maxBitrate"),
+					optionalInt(rtpSenderParameters, "maxBitrateAudioOnly"));
+		}
+		// Deprecated top-level key: forwarded to rtpSenderParameters.maxBitrate, which wins when both are set
+		// (the SDK's precedence), so the bridge no longer sets the deprecated AssistboxOptions.maxBitrate.
+		Integer legacyMaxBitrate = optionalInt(map, "maxBitrate");
+		if (legacyMaxBitrate != null) {
+			RTPSenderParameters rtpSenderParameters = options.rtpSenderParameters != null
+					? options.rtpSenderParameters
+					: new RTPSenderParameters();
+			if (rtpSenderParameters.maxBitrate == null) {
+				rtpSenderParameters.maxBitrate = legacyMaxBitrate;
+			}
+			options.rtpSenderParameters = rtpSenderParameters;
 		}
 		if (map.hasKey("waitingPlaylistName")) {
 			options.waitingPlaylistName = map.getString("waitingPlaylistName");
@@ -687,6 +704,11 @@ public class ReactNativeAssistboxModule extends ReactContextBaseJavaModule {
 				AssistboxActions.tryReconnection(showReconnectionDialog);
 				break;
 		}
+	}
+
+	/** Returns the integer under {@code key}, or {@code null} when the key is missing or null. */
+	private static Integer optionalInt(ReadableMap map, String key) {
+		return map.hasKey(key) && !map.isNull(key) ? map.getInt(key) : null;
 	}
 
 	// Unknown component names are logged and skipped (consistent with the iOS bridge) to

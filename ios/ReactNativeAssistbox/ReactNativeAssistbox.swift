@@ -581,8 +581,19 @@ class ReactNativeAssistbox: RCTEventEmitter {
 		if let correlationId = dictionary["correlationId"] as? String {
 			options.correlationId = correlationId
 		}
+		if let rtpSenderParameters = dictionary["rtpSenderParameters"] as? [String: Any] {
+			options.rtpSenderParameters = RTPSenderParameters(
+				maxBitrate: rtpSenderParameters["maxBitrate"] as? NSNumber,
+				maxBitrateAudioOnly: rtpSenderParameters["maxBitrateAudioOnly"] as? NSNumber)
+		}
+		// Deprecated top-level key: forwarded to rtpSenderParameters.maxBitrate, which wins when both are set
+		// (the SDK's precedence), so the bridge no longer sets the deprecated AssistboxOptions.maxBitrate.
 		if let maxBitrate = dictionary["maxBitrate"] as? NSNumber {
-			options.maxBitrate = maxBitrate
+			let rtpSenderParameters = options.rtpSenderParameters ?? RTPSenderParameters()
+			if rtpSenderParameters.maxBitrate == nil {
+				rtpSenderParameters.maxBitrate = maxBitrate
+			}
+			options.rtpSenderParameters = rtpSenderParameters
 		}
 		if let waitingPlaylistName = dictionary["waitingPlaylistName"] as? String {
 			options.waitingPlaylistName = waitingPlaylistName

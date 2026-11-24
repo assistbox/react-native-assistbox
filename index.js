@@ -9,6 +9,17 @@ import { DeviceEventEmitter, NativeEventEmitter, NativeModules, Platform } from 
  * @property {('videoRoom'|'sip')} [webrtcPluginType] iOS and Android. Default: 'videoRoom'.
  * @property {string} [eventHandlerToken] iOS and Android.
  * @property {Object<string,string>} [eventHandlerHeaders] iOS and Android.
+ * @property {RTPSenderParameters} [rtpSenderParameters] iOS and Android. Outgoing bitrate caps, in bps.
+ * @property {number} [maxBitrate] Deprecated: use rtpSenderParameters.maxBitrate. Still accepted and forwarded to
+ *   rtpSenderParameters.maxBitrate; rtpSenderParameters.maxBitrate wins when both are set.
+ */
+
+/**
+ * @typedef {Object} RTPSenderParameters
+ * @property {number} [maxBitrate] Caps audio and video senders, in bps. When missing, the backend media stream
+ *   settings bitrate is used.
+ * @property {number} [maxBitrateAudioOnly] Caps only audio senders, in bps (e.g. 40000 or 128000); overrides
+ *   maxBitrate for audio. Does not disable the backend bitrate for video.
  */
 
 /**
